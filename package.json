@@ -1,0 +1,20 @@
+{
+  "name": "imageresizer",
+  "productName": "ImageResizer",
+  "version": "1.0.0",
+  "description": "Electron application that allows you to select an image and easily change the width and/or height.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "ethan",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^22.0.1"
+  },
+  "dependencies": {
+    "resize-img": "^1.1.2",
+    "toastify-js": "^1.12.0"
+  }
+}
