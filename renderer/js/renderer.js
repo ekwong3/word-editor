@@ -24,7 +24,6 @@ function loadFile(e) {
 // Make sure file is text
 function isFileText(file) {
   const acceptedFileTypes = [
-    "text/plain",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   ];
   return file && acceptedFileTypes.includes(file["type"]);
@@ -35,7 +34,7 @@ function editText(e) {
   e.preventDefault();
 
   if (!doc.files[0]) {
-    alertError("Please upload an Word file");
+    alertError("Please upload a Word file");
     return;
   }
 

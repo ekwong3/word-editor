@@ -122,16 +122,10 @@ ipcMain.on("file:edit", (e, options) => {
 // Resize and save image
 async function editText({ filePath, find, replace }) {
   try {
-    fs.readFile(filePath, "utf8", function (err, data) {
-      if (err) {
-        return console.log(err);
-      }
-
-      var result = data.replace(find, replace);
-
-      fs.writeFile(filePath, result, "utf8", function (err) {
-        if (err) return console.log(err);
-      });
+    $.ajax({
+      method: "POST",
+      url: "editor.py",
+      data: { doc: filePath, find: find, replace: replace },
     });
 
     // Send success to renderer

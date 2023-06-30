@@ -23,15 +23,15 @@ def find_and_replace(doc, find, replace):
   
     document.save(doc)
 
-def read_doc(doc):
-    document = Document(doc)
-    for p in document.sections[0].header.paragraphs:
-        print(p.text)
+# def read_doc(doc):
+#     document = Document(doc)
+#     for p in document.sections[0].header.paragraphs:
+#         print(p.text)
 
-    for paragraph in document.paragraphs:
-        print(paragraph.text)
+#     for paragraph in document.paragraphs:
+#         print(paragraph.text)
     
-    for p in document.sections[0].footer.paragraphs:
-        print(p.text)
+#     for p in document.sections[0].footer.paragraphs:
+#         print(p.text)
 
 # read_doc('Test.docx')

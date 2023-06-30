@@ -11,9 +11,10 @@
   "author": "ethan",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^22.0.1"
+    "electron": "^25.2.0"
   },
   "dependencies": {
+    "python-shell": "^5.0.0",
     "resize-img": "^1.1.2",
     "toastify-js": "^1.12.0"
   }
