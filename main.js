@@ -1,7 +1,5 @@
+let { PythonShell } = require("python-shell");
 const path = require("path");
-const os = require("os");
-const fs = require("fs");
-const resizeImg = require("resize-img");
 const { app, BrowserWindow, Menu, ipcMain, shell } = require("electron");
 
 // const isDev = process.env.NODE_ENV !== "production";
@@ -113,26 +111,20 @@ const menu = [
     : []),
 ];
 
-// Respond to the resize image event
 ipcMain.on("file:edit", (e, options) => {
-  console.log(options);
   editText(options);
 });
 
-// Resize and save image
-async function editText({ filePath, find, replace }) {
-  try {
-    $.ajax({
-      method: "POST",
-      url: "editor.py",
-      data: { doc: filePath, find: find, replace: replace },
-    });
-
-    // Send success to renderer
-    mainWindow.webContents.send("file:done");
-  } catch (err) {
+function editText({ filePath, find, replace }) {
+  let options = {
+    mode: "text",
+    args: [filePath, find, replace],
+  };
+  PythonShell.run("editor.py", options, function (err) {
     console.log(err);
-  }
+  }).then((message) => {
+    console.log(message);
+  });
 }
 
 // Quit when all windows are closed.
