@@ -1,35 +1,40 @@
-const form = document.querySelector("#img-form");
+const form = document.querySelector("#text-form");
+const select = document.querySelector("#select");
+const folderName = document.querySelector("#folder-name");
 const doc = document.querySelector("#doc");
-const filename = document.querySelector("#filename");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
 
-// Load image and show form
-function loadFile(e) {
-  const file = e.target.files[0];
+function reverseString(str) {
+  return str.split("").reverse().join("");
+}
 
-  // Check if file is an image
-  if (!isFileText(file)) {
-    alertError("Please select an image");
+function getFolderPath() {
+  if (doc.files.length < 1) {
+    alertError("Please upload a folder with files");
     return;
   }
+  const reversedPath = reverseString(doc.files[0].path);
+  const firstSlash = reversedPath.search("/");
+  const folderPath = reverseString(reversedPath.slice(firstSlash));
+  return folderPath;
+}
 
+// Load image and show form
+function loadFile() {
+  const folderPath = getFolderPath();
+  select.innerHTML = "Editing files in&nbsp";
+  folderName.innerHTML = folderPath;
+}
+
+function reset() {
   findInput.value = "";
   replaceInput.value = "";
-  // Show form, image name
-  form.style.display = "block";
-  filename.innerHTML = doc.files[0].name;
+  doc.files = null;
+  select.innerHTML = "Select a folder of files to edit";
+  folderName.innerHTML = "";
 }
-
-// Make sure file is text
-function isFileText(file) {
-  const acceptedFileTypes = [
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  ];
-  return file && acceptedFileTypes.includes(file["type"]);
-}
-
-// Resize image
+// Edit text
 function editText(e) {
   e.preventDefault();
 
@@ -44,12 +49,12 @@ function editText(e) {
   }
 
   // Electron adds a bunch of extra properties to the file object including the path
-  const filePath = doc.files[0].path;
+  const folderPath = getFolderPath();
   const find = findInput.value;
   const replace = replaceInput.value;
 
   ipcRenderer.send("file:edit", {
-    filePath,
+    folderPath,
     find,
     replace,
   });
@@ -57,6 +62,7 @@ function editText(e) {
 
 // When done, show message
 ipcRenderer.on("file:done", () => {
+  reset();
   alertSuccess("Text edited!");
 });
 

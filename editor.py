@@ -1,4 +1,5 @@
 import sys
+import os
 from docx import Document
 
 
@@ -38,10 +39,23 @@ def find_and_replace(doc, find, replace):
     document.save(doc)
 
 
-path = sys.argv[1]
+def replace_many(doc, finds, replaces):
+    finds = finds.split('\n')
+    replaces = replaces.split('\n')
+    shorter = min(len(finds), len(replaces))
+    for i in range(shorter):
+        find_and_replace(doc, finds[i], replaces[i])
+
+
+def replace_folder(folderpath, finds, replaces):
+    for filename in os.listdir(folderpath):
+        if filename.endswith('.docx'):
+            filepath = f'{folderpath}{filename}'
+            replace_many(filepath, finds, replaces)
+
+
+folder = sys.argv[1]
 find = sys.argv[2]
 replace = sys.argv[3]
 
-read_doc(path)
-find_and_replace(path, find, replace)
-read_doc(path)
+replace_folder(folder, find, replace)

@@ -1,9 +1,9 @@
-let { PythonShell } = require("python-shell");
+const { PythonShell } = require("python-shell");
 const path = require("path");
-const { app, BrowserWindow, Menu, ipcMain, shell } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 // const isDev = process.env.NODE_ENV !== "production";
-const isDev = true;
+const isDev = false;
 const isMac = process.platform === "darwin";
 
 let mainWindow;
@@ -12,7 +12,7 @@ let aboutWindow;
 // Main Window
 function createMainWindow() {
   mainWindow = new BrowserWindow({
-    width: isDev ? 1000 : 500,
+    width: isDev ? 1000 : 600,
     height: 600,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: isDev,
@@ -86,16 +86,6 @@ const menu = [
         },
       ]
     : []),
-  // {
-  //   label: 'File',
-  //   submenu: [
-  //     {
-  //       label: 'Quit',
-  //       click: () => app.quit(),
-  //       accelerator: 'CmdOrCtrl+W',
-  //     },
-  //   ],
-  // },
   ...(isDev
     ? [
         {
@@ -115,15 +105,16 @@ ipcMain.on("file:edit", (e, options) => {
   editText(options);
 });
 
-function editText({ filePath, find, replace }) {
+function editText({ folderPath, find, replace }) {
   let options = {
     mode: "text",
-    args: [filePath, find, replace],
+    args: [folderPath, find, replace],
   };
   PythonShell.run("editor.py", options, function (err) {
     console.log(err);
   }).then((message) => {
     console.log(message);
+    mainWindow.webContents.send("file:done");
   });
 }
 
