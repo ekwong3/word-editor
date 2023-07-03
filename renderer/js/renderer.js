@@ -5,7 +5,7 @@ const doc = document.querySelector("#doc");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
 const caseCheck = document.getElementById("case");
-const wordCheck = document.getElementById("whole-word");
+const processSubCheck = document.getElementById("subfolders");
 const modal = document.getElementById("modal");
 const modalHeader = document.getElementById("modal-header");
 const span = document.getElementById("close");
@@ -53,7 +53,7 @@ function reset() {
   replaceInput.value = "";
   doc.file = null;
   caseCheck.checked = false;
-  wordCheck.checked = false;
+  processSubCheck.checked = false;
   select.innerHTML = "Select a folder of files to edit";
   folderName.innerHTML = "";
 }
@@ -75,15 +75,15 @@ function editText(e) {
   const folderPath = getFolderPath();
   const find = findInput.value;
   const replace = replaceInput.value;
-  const matchCase = caseCheck.checked;
-  const matchWord = wordCheck.checked;
+  const keepCase = caseCheck.checked;
+  const processSub = processSubCheck.checked;
 
   ipcRenderer.send("file:edit", {
     folderPath,
     find,
     replace,
-    matchCase,
-    matchWord,
+    keepCase,
+    processSub,
   });
 }
 
