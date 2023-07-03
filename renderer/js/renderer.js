@@ -6,6 +6,23 @@ const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
 const caseCheck = document.getElementById("case");
 const wordCheck = document.getElementById("whole-word");
+const modal = document.getElementById("modal");
+const modalHeader = document.getElementById("modal-header");
+const span = document.getElementById("close");
+const title = document.getElementById("modal-title");
+const content = document.getElementById("modal-content");
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+};
 
 function reverseString(str) {
   return str.split("").reverse().join("");
@@ -13,7 +30,7 @@ function reverseString(str) {
 
 function getFolderPath() {
   if (doc.files.length < 1) {
-    alertError("Please upload a folder with files");
+    alertError("missing-files");
     select.innerHTML = "Select a folder of files to edit";
     folderName.innerHTML = "";
     return;
@@ -45,12 +62,12 @@ function editText(e) {
   e.preventDefault();
 
   if (!doc.files[0]) {
-    alertError("Please upload a Word file");
+    alertError("missing-files");
     return;
   }
 
   if (findInput.value === "" || replaceInput.value === "") {
-    alertError("Please enter valid strings");
+    alertError("missing-strings");
     return;
   }
 
@@ -76,30 +93,38 @@ ipcRenderer.on("file:done", () => {
   alertSuccess("Text edited!");
 });
 
+ipcRenderer.on("file:error", () => {
+  alertError("file-error");
+});
+
 function alertSuccess(message) {
-  Toastify.toast({
-    text: message,
-    duration: 5000,
-    close: false,
-    style: {
-      background: "green",
-      color: "white",
-      textAlign: "center",
-    },
-  });
+  modalHeader.style.backgroundColor = "rgb(15 118 110)";
+  modal.style.display = "block";
+  title.innerHTML = message;
+  content.innerHTML = "Files were successfully edited";
 }
 
-function alertError(message) {
-  Toastify.toast({
-    text: message,
-    duration: 5000,
-    close: false,
-    style: {
-      background: "red",
-      color: "white",
-      textAlign: "center",
-    },
-  });
+function alertError(error) {
+  modalHeader.style.backgroundColor = "rgb(194 32 14)";
+  modal.style.display = "block";
+  switch (error) {
+    case "missing-files":
+      title.innerHTML = "Missing Files";
+      content.innerHTML = "Please upload a folder with valid files";
+      break;
+    case "missing-strings":
+      title.innerHTML = "Missing Text";
+      content.innerHTML = "Please enter words to find and replace";
+      break;
+    case "file-error":
+      title.innerHTML = "File Error";
+      content.innerHTML =
+        "There was an error editing the files. Make sure all files are valid Word files.";
+      break;
+    default:
+      title.innerHTML = "Error";
+      content.innerHTML = "Please try again!";
+  }
 }
 
 // File select listener
