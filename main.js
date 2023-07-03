@@ -6,6 +6,24 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const isDev = false;
 const isMac = process.platform === "darwin";
 
+function editText({ folderPath, find, replace, matchCase, matchWord }) {
+  let options = {
+    mode: "text",
+    args: [folderPath, find, replace, matchCase, matchWord],
+  };
+  PythonShell.run("editor.py", options, function (err) {
+    console.log(err);
+  })
+    .then((message) => {
+      console.log(message);
+      mainWindow.webContents.send("file:done");
+    })
+    .catch((err) => {
+      console.log(err);
+      mainWindow.webContents.send("file:error");
+    });
+}
+
 let mainWindow;
 let aboutWindow;
 
@@ -104,18 +122,6 @@ const menu = [
 ipcMain.on("file:edit", (e, options) => {
   editText(options);
 });
-
-function editText({ folderPath, find, replace, matchCase, matchWord }) {
-  let options = {
-    mode: "text",
-    args: [folderPath, find, replace, matchCase, matchWord],
-  };
-  PythonShell.run("editor.py", options, function (err) {
-    console.log(err);
-  }).then((message) => {
-    mainWindow.webContents.send("file:done");
-  });
-}
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
