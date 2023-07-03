@@ -2,9 +2,6 @@
 
 Electron application that allows you to select Word files and find and replace
 
-<div style="display: flex; justify-content: center">
-<img src="./assets/screen.png" width="400" />
-</div>
 
 ## Usage
 
