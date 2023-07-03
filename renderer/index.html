@@ -11,7 +11,7 @@
   <title>Word Editor</title>
 </head>
 
-<body class="bg-teal-700">
+<body class="bg-teal-700 overflow-auto">
   <div class="max-w-xl m-auto">
     <div class="flex bg-grey-lighter py-7">
       <label
@@ -25,24 +25,39 @@
     <!-- Form -->
     <form id="text-form">
       <div class="mx-auto fit-content">
-        <div class="form-input">
+        <div class="inline-block">
           <label for="find" class="block text-center text-white shadow-sm border-gray-300 rounded-md">Find</label>
           <textarea name="find" id="find" class="p-3 shadow-sm border-gray-300 rounded-md" rows="10" cols="30"
             placeholder="Find"></textarea>
         </div>
-        <div class="form-input">
+        <div class="inline-block">
           <label for="replace" class="block text-center text-white shadow-sm border-gray-300 rounded-md">Replace</label>
           <textarea name="replace" id="replace" class="p-3 shadow-sm border-gray-300 rounded-md" rows="10" cols="30"
             placeholder="Replace"></textarea>
         </div>
       </div>
-      <!-- Button -->
-      <div>
-        <button type="submit"
-          class="my-5 mx-auto flex py-4 px-10 border border-transparent shadow-sm text-sm font-medium text-lg rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-          Edit
-        </button>
 
+      <div class="mx-auto fit-content">
+        <div
+          class="inline-block m-2 py-4 px-4 border border-transparent shadow-sm font-medium text-medium rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <input type="checkbox" id="case" name="case" value="case">
+          <label for="case">&nbspMatch case</label>
+        </div>
+
+        <div
+          class="inline-block mx-2 my-5 py-4 px-4 border border-transparent shadow-sm font-medium text-medium rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <input type="checkbox" id="whole-word" name="whole-word" value="word">
+          <label for="whole-word">&nbspMatch whole word</label>
+        </div>
+
+        <!-- Button -->
+        <div class="inline-block">
+          <button type="submit"
+            class="block m-2 py-4 px-4 border border-transparent shadow-sm font-medium text-medium rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Edit
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </body>

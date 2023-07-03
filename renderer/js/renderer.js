@@ -4,6 +4,8 @@ const folderName = document.querySelector("#folder-name");
 const doc = document.querySelector("#doc");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
+const caseCheck = document.getElementById("case");
+const wordCheck = document.getElementById("whole-word");
 
 function reverseString(str) {
   return str.split("").reverse().join("");
@@ -12,6 +14,8 @@ function reverseString(str) {
 function getFolderPath() {
   if (doc.files.length < 1) {
     alertError("Please upload a folder with files");
+    select.innerHTML = "Select a folder of files to edit";
+    folderName.innerHTML = "";
     return;
   }
   const reversedPath = reverseString(doc.files[0].path);
@@ -30,7 +34,9 @@ function loadFile() {
 function reset() {
   findInput.value = "";
   replaceInput.value = "";
-  doc.files = null;
+  doc.file = null;
+  caseCheck.checked = false;
+  wordCheck.checked = false;
   select.innerHTML = "Select a folder of files to edit";
   folderName.innerHTML = "";
 }
@@ -52,11 +58,15 @@ function editText(e) {
   const folderPath = getFolderPath();
   const find = findInput.value;
   const replace = replaceInput.value;
+  const matchCase = caseCheck.checked;
+  const matchWord = wordCheck.checked;
 
   ipcRenderer.send("file:edit", {
     folderPath,
     find,
     replace,
+    matchCase,
+    matchWord,
   });
 }
 
@@ -93,6 +103,6 @@ function alertError(message) {
 }
 
 // File select listener
-doc.addEventListener("change", loadFile);
+doc.addEventListener("input", loadFile);
 // Form submit listener
 form.addEventListener("submit", editText);

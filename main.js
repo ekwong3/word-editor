@@ -105,15 +105,14 @@ ipcMain.on("file:edit", (e, options) => {
   editText(options);
 });
 
-function editText({ folderPath, find, replace }) {
+function editText({ folderPath, find, replace, matchCase, matchWord }) {
   let options = {
     mode: "text",
-    args: [folderPath, find, replace],
+    args: [folderPath, find, replace, matchCase, matchWord],
   };
   PythonShell.run("editor.py", options, function (err) {
     console.log(err);
   }).then((message) => {
-    console.log(message);
     mainWindow.webContents.send("file:done");
   });
 }

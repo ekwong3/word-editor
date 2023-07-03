@@ -569,13 +569,22 @@ video {
   width: fit-content;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .my-5 {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
 
-.form-input {
+.inline-block {
   display: inline-block;
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 textarea {
