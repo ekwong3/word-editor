@@ -6,20 +6,16 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const isDev = false;
 const isMac = process.platform === "darwin";
 
-function editText({ folderPath, find, replace, matchCase, matchWord }) {
+function editText({ folderPath, find, replace, keepCase, processSub }) {
   let options = {
     mode: "text",
-    args: [folderPath, find, replace, matchCase, matchWord],
+    args: [folderPath, find, replace, keepCase, processSub],
   };
-  PythonShell.run("editor.py", options, function (err) {
-    console.log(err);
-  })
-    .then((message) => {
-      console.log(message);
+  PythonShell.run("editor.py", options)
+    .then(() => {
       mainWindow.webContents.send("file:done");
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
       mainWindow.webContents.send("file:error");
     });
 }
