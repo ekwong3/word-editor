@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "python-shell": "^5.0.0"
+    "python-shell": "^5.0.0",
+    "word-wrap": "^1.2.3"
   }
 }
