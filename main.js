@@ -1,23 +1,20 @@
-const { PythonShell } = require("python-shell");
+const child = require("child_process").execFile;
 const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 // const isDev = process.env.NODE_ENV !== "production";
-const isDev = false;
-const isMac = process.platform === "darwin";
+const isDev = true;
 
 function editText({ folderPath, find, replace, keepCase, processSub }) {
-  let options = {
-    mode: "text",
-    args: [folderPath, find, replace, keepCase, processSub],
-  };
-  PythonShell.run("editor.py", options)
-    .then(() => {
-      mainWindow.webContents.send("file:done");
-    })
-    .catch(() => {
-      mainWindow.webContents.send("file:error");
-    });
+  const execPath = path.join(__dirname, "./scripts/editor");
+  const params = [folderPath, find, replace, keepCase, processSub];
+  child(execPath, params, function (err, message) {
+    if (err) {
+      mainWindow.webContents.send("file:error", err);
+    } else {
+      mainWindow.webContents.send("file:done", message);
+    }
+  });
 }
 
 let mainWindow;
@@ -27,7 +24,7 @@ let aboutWindow;
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: isDev ? 1000 : 600,
-    height: 600,
+    height: 620,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: isDev,
     webPreferences: {
@@ -71,35 +68,55 @@ app.on("ready", () => {
 
 // Menu template
 const menu = [
-  ...(isMac
-    ? [
+  ...[
+    {
+      role: "fileMenu",
+    },
+    {
+      label: app.name,
+      submenu: [
         {
-          label: app.name,
-          submenu: [
-            {
-              label: "About",
-              click: createAboutWindow,
-            },
-          ],
+          label: "About",
+          click: createAboutWindow,
         },
-      ]
-    : []),
-  {
-    role: "fileMenu",
-  },
-  ...(!isMac
-    ? [
+      ],
+      label: "Application",
+      submenu: [
         {
-          label: "Help",
-          submenu: [
-            {
-              label: "About",
-              click: createAboutWindow,
-            },
-          ],
+          label: "About Application",
+          selector: "orderFrontStandardAboutPanel:",
         },
-      ]
-    : []),
+        { type: "separator" },
+        {
+          label: "Quit",
+          accelerator: "Command+Q",
+          click: function () {
+            app.quit();
+          },
+        },
+      ],
+    },
+    {
+      label: "Edit",
+      submenu: [
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        {
+          label: "Redo",
+          accelerator: "Shift+CmdOrCtrl+Z",
+          selector: "redo:",
+        },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        {
+          label: "Select All",
+          accelerator: "CmdOrCtrl+A",
+          selector: "selectAll:",
+        },
+      ],
+    },
+  ],
   ...(isDev
     ? [
         {
@@ -121,7 +138,7 @@ ipcMain.on("file:edit", (e, options) => {
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
-  if (!isMac) app.quit();
+  app.quit();
 });
 
 // Open a window if none are open (macOS)

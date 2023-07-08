@@ -1,15 +1,15 @@
 {
   "name": "WordEditor",
   "version": "1.0.0",
-  "description": "Electron application that allows you to find and replace words in a Word document.",
+  "description": "Electron application that allows you to select an image and easily change the width and/or height.",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
-    "build": "electron-packager . WordEditor",
+    "package": "electron-forge package",
     "make": "electron-forge make"
   },
   "keywords": [],
-  "author": "Ethan Kwong",
+  "author": "ethan",
   "license": "ISC",
   "devDependencies": {
     "@electron-forge/cli": "^6.2.1",
@@ -18,12 +18,11 @@
     "@electron-forge/maker-squirrel": "^6.2.1",
     "@electron-forge/maker-zip": "^6.2.1",
     "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
-    "electron": "^25.2.0"
+    "electron": "^25.2.0",
+    "electron-packager": "^17.1.1"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "python-shell": "^5.0.0",
-    "resize-img": "^1.1.2",
-    "toastify-js": "^1.12.0"
+    "python-shell": "^5.0.0"
   }
 }

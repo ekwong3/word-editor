@@ -4,13 +4,13 @@ const folderName = document.querySelector("#folder-name");
 const doc = document.querySelector("#doc");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
-const caseCheck = document.getElementById("case");
-const processSubCheck = document.getElementById("subfolders");
-const modal = document.getElementById("modal");
-const modalHeader = document.getElementById("modal-header");
-const span = document.getElementById("close");
-const title = document.getElementById("modal-title");
-const content = document.getElementById("modal-content");
+const caseCheck = document.querySelector("#case");
+const processSubCheck = document.querySelector("#subfolders");
+const modal = document.querySelector("#modal");
+const modalHeader = document.querySelector("#modal-header");
+const span = document.querySelector("#close");
+const title = document.querySelector("#modal-title");
+const content = document.querySelector("#modal-content");
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
@@ -78,6 +78,8 @@ function editText(e) {
   const keepCase = caseCheck.checked;
   const processSub = processSubCheck.checked;
 
+  alertEditing();
+
   ipcRenderer.send("file:edit", {
     folderPath,
     find,
@@ -88,14 +90,22 @@ function editText(e) {
 }
 
 // When done, show message
-ipcRenderer.on("file:done", () => {
+ipcRenderer.on("file:done", (message) => {
   reset();
+  console.log(message);
   alertSuccess("Text edited!");
 });
 
-ipcRenderer.on("file:error", () => {
-  alertError("file-error");
+ipcRenderer.on("file:error", (error) => {
+  alertError("file-error", error);
 });
+
+function alertEditing() {
+  modalHeader.style.backgroundColor = "rgb(124 124 124)";
+  modal.style.display = "block";
+  title.innerHTML = "Editing in process";
+  content.innerHTML = "Files are currently being edited";
+}
 
 function alertSuccess(message) {
   modalHeader.style.backgroundColor = "rgb(15 118 110)";
@@ -104,7 +114,7 @@ function alertSuccess(message) {
   content.innerHTML = "Files were successfully edited";
 }
 
-function alertError(error) {
+function alertError(error, errMsg = "") {
   modalHeader.style.backgroundColor = "rgb(194 32 14)";
   modal.style.display = "block";
   switch (error) {
@@ -118,8 +128,7 @@ function alertError(error) {
       break;
     case "file-error":
       title.innerHTML = "File Error";
-      content.innerHTML =
-        "There was an error editing the files. Make sure all files are valid Word files.";
+      content.innerHTML = errMsg;
       break;
     default:
       title.innerHTML = "Error";
