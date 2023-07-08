@@ -4,7 +4,6 @@ const folderName = document.querySelector("#folder-name");
 const doc = document.querySelector("#doc");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
-const python = document.querySelector("#python");
 const caseCheck = document.querySelector("#case");
 const processSubCheck = document.querySelector("#subfolders");
 const modal = document.querySelector("#modal");
@@ -78,7 +77,6 @@ function editText(e) {
   const replace = replaceInput.value;
   const keepCase = caseCheck.checked;
   const processSub = processSubCheck.checked;
-  const pythonPath = "";
 
   ipcRenderer.send("file:edit", {
     folderPath,
@@ -86,13 +84,13 @@ function editText(e) {
     replace,
     keepCase,
     processSub,
-    pythonPath,
   });
 }
 
 // When done, show message
-ipcRenderer.on("file:done", () => {
+ipcRenderer.on("file:done", (message) => {
   reset();
+  console.log(message);
   alertSuccess("Text edited!");
 });
 
