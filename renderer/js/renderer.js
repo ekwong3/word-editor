@@ -4,13 +4,14 @@ const folderName = document.querySelector("#folder-name");
 const doc = document.querySelector("#doc");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
-const caseCheck = document.getElementById("case");
-const processSubCheck = document.getElementById("subfolders");
-const modal = document.getElementById("modal");
-const modalHeader = document.getElementById("modal-header");
-const span = document.getElementById("close");
-const title = document.getElementById("modal-title");
-const content = document.getElementById("modal-content");
+const python = document.querySelector("#python");
+const caseCheck = document.querySelector("#case");
+const processSubCheck = document.querySelector("#subfolders");
+const modal = document.querySelector("#modal");
+const modalHeader = document.querySelector("#modal-header");
+const span = document.querySelector("#close");
+const title = document.querySelector("#modal-title");
+const content = document.querySelector("#modal-content");
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
@@ -77,6 +78,7 @@ function editText(e) {
   const replace = replaceInput.value;
   const keepCase = caseCheck.checked;
   const processSub = processSubCheck.checked;
+  const pythonPath = "";
 
   ipcRenderer.send("file:edit", {
     folderPath,
@@ -84,6 +86,7 @@ function editText(e) {
     replace,
     keepCase,
     processSub,
+    pythonPath,
   });
 }
 

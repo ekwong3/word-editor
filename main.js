@@ -3,12 +3,20 @@ const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 // const isDev = process.env.NODE_ENV !== "production";
-const isDev = false;
+const isDev = true;
 const isMac = process.platform === "darwin";
 
-function editText({ folderPath, find, replace, keepCase, processSub }) {
+function editText({
+  folderPath,
+  find,
+  replace,
+  keepCase,
+  processSub,
+  pythonPath,
+}) {
   let options = {
     mode: "text",
+    pythonPath: pythonPath,
     scriptPath: path.join(__dirname, "./scripts"),
     args: [folderPath, find, replace, keepCase, processSub],
   };
@@ -28,7 +36,7 @@ let aboutWindow;
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: isDev ? 1000 : 600,
-    height: 600,
+    height: 620,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: isDev,
     webPreferences: {
@@ -72,35 +80,55 @@ app.on("ready", () => {
 
 // Menu template
 const menu = [
-  ...(isMac
-    ? [
+  ...[
+    {
+      role: "fileMenu",
+    },
+    {
+      label: app.name,
+      submenu: [
         {
-          label: app.name,
-          submenu: [
-            {
-              label: "About",
-              click: createAboutWindow,
-            },
-          ],
+          label: "About",
+          click: createAboutWindow,
         },
-      ]
-    : []),
-  {
-    role: "fileMenu",
-  },
-  ...(!isMac
-    ? [
+      ],
+      label: "Application",
+      submenu: [
         {
-          label: "Help",
-          submenu: [
-            {
-              label: "About",
-              click: createAboutWindow,
-            },
-          ],
+          label: "About Application",
+          selector: "orderFrontStandardAboutPanel:",
         },
-      ]
-    : []),
+        { type: "separator" },
+        {
+          label: "Quit",
+          accelerator: "Command+Q",
+          click: function () {
+            app.quit();
+          },
+        },
+      ],
+    },
+    {
+      label: "Edit",
+      submenu: [
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        {
+          label: "Redo",
+          accelerator: "Shift+CmdOrCtrl+Z",
+          selector: "redo:",
+        },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        {
+          label: "Select All",
+          accelerator: "CmdOrCtrl+A",
+          selector: "selectAll:",
+        },
+      ],
+    },
+  ],
   ...(isDev
     ? [
         {
@@ -122,7 +150,7 @@ ipcMain.on("file:edit", (e, options) => {
 
 // Quit when all windows are closed.
 app.on("window-all-closed", () => {
-  if (!isMac) app.quit();
+  app.quit();
 });
 
 // Open a window if none are open (macOS)
