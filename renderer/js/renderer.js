@@ -1,7 +1,7 @@
 const form = document.querySelector("#text-form");
 const select = document.querySelector("#select");
 const folderName = document.querySelector("#folder-name");
-const doc = document.querySelector("#doc");
+const folder = document.querySelector("#folderpath");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
 const caseCheck = document.querySelector("#case");
@@ -29,13 +29,13 @@ function reverseString(str) {
 }
 
 function getFolderPath() {
-  if (doc.files.length < 1) {
+  if (folder.files.length < 1) {
     alertError("missing-files");
     select.innerHTML = "Select a folder of files to edit";
     folderName.innerHTML = "";
     return;
   }
-  const reversedPath = reverseString(doc.files[0].path);
+  const reversedPath = reverseString(folder.files[0].path);
   const firstSlash = reversedPath.search("/");
   const folderPath = reverseString(reversedPath.slice(firstSlash));
   return folderPath;
@@ -43,25 +43,35 @@ function getFolderPath() {
 
 // Load image and show form
 function loadFile() {
+  if (!folder.value) {
+    resetFolder();
+    return;
+  }
+
   const folderPath = getFolderPath();
   select.innerHTML = "Editing files in&nbsp";
   folderName.innerHTML = folderPath;
 }
 
-function reset() {
-  findInput.value = "";
-  replaceInput.value = "";
-  doc.file = null;
-  caseCheck.checked = false;
-  processSubCheck.checked = false;
+function resetFolder() {
+  folder.value = "";
   select.innerHTML = "Select a folder of files to edit";
   folderName.innerHTML = "";
 }
+
+function reset() {
+  findInput.value = "";
+  replaceInput.value = "";
+  caseCheck.checked = false;
+  processSubCheck.checked = false;
+  resetFolder();
+}
+
 // Edit text
 function editText(e) {
   e.preventDefault();
 
-  if (!doc.files[0]) {
+  if (!folder.files[0]) {
     alertError("missing-files");
     return;
   }
@@ -137,6 +147,6 @@ function alertError(error, errMsg = "") {
 }
 
 // File select listener
-doc.addEventListener("input", loadFile);
+folder.addEventListener("input", loadFile);
 // Form submit listener
 form.addEventListener("submit", editText);
