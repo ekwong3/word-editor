@@ -78,6 +78,8 @@ function editText(e) {
   const keepCase = caseCheck.checked;
   const processSub = processSubCheck.checked;
 
+  alertEditing();
+
   ipcRenderer.send("file:edit", {
     folderPath,
     find,
@@ -97,6 +99,13 @@ ipcRenderer.on("file:done", (message) => {
 ipcRenderer.on("file:error", (error) => {
   alertError("file-error", error);
 });
+
+function alertEditing() {
+  modalHeader.style.backgroundColor = "rgb(124 124 124)";
+  modal.style.display = "block";
+  title.innerHTML = "Editing in process";
+  content.innerHTML = "Files are currently being edited";
+}
 
 function alertSuccess(message) {
   modalHeader.style.backgroundColor = "rgb(15 118 110)";

@@ -1,21 +1,20 @@
-const child = require('child_process').execFile;
+const child = require("child_process").execFile;
 const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 // const isDev = process.env.NODE_ENV !== "production";
 const isDev = true;
-const isMac = process.platform === "darwin";
 
 function editText({ folderPath, find, replace, keepCase, processSub }) {
-  const execPath = './scripts/editor'
-  const params = [folderPath, find, replace, keepCase, processSub]
+  const execPath = "./scripts/editor";
+  const params = [folderPath, find, replace, keepCase, processSub];
   child(execPath, params, function (err, message) {
     if (err) {
       mainWindow.webContents.send("file:error", err);
     } else {
       mainWindow.webContents.send("file:done", message);
     }
-  })
+  });
 }
 
 let mainWindow;
