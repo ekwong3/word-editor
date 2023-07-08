@@ -9,14 +9,15 @@ const isMac = process.platform === "darwin";
 function editText({ folderPath, find, replace, keepCase, processSub }) {
   let options = {
     mode: "text",
+    scriptPath: path.join(__dirname, "./scripts"),
     args: [folderPath, find, replace, keepCase, processSub],
   };
   PythonShell.run("editor.py", options)
     .then(() => {
       mainWindow.webContents.send("file:done");
     })
-    .catch(() => {
-      mainWindow.webContents.send("file:error");
+    .catch((err) => {
+      mainWindow.webContents.send("file:error", err);
     });
 }
 

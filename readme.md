@@ -2,7 +2,6 @@
 
 Electron application that allows you to select Word files and find and replace
 
-
 ## Usage
 
 Install dependencies:
@@ -29,6 +28,10 @@ npx electronmon .
 If your `NODE_ENV` is set to `development` then you will have the dev tools enabled and available in the menu bar. It will also open them by default.
 
 When set to `production`, the dev tools will not be available.
+
+## Packaging
+
+Currently on MacOS, use `npx electron-packager . WordEditor` to package.
 
 ## Original Files
 

@@ -93,8 +93,8 @@ ipcRenderer.on("file:done", () => {
   alertSuccess("Text edited!");
 });
 
-ipcRenderer.on("file:error", () => {
-  alertError("file-error");
+ipcRenderer.on("file:error", (error) => {
+  alertError("file-error", error);
 });
 
 function alertSuccess(message) {
@@ -104,7 +104,7 @@ function alertSuccess(message) {
   content.innerHTML = "Files were successfully edited";
 }
 
-function alertError(error) {
+function alertError(error, errMsg = "") {
   modalHeader.style.backgroundColor = "rgb(194 32 14)";
   modal.style.display = "block";
   switch (error) {
@@ -118,8 +118,7 @@ function alertError(error) {
       break;
     case "file-error":
       title.innerHTML = "File Error";
-      content.innerHTML =
-        "There was an error editing the files. Make sure all files are valid Word files.";
+      content.innerHTML = errMsg;
       break;
     default:
       title.innerHTML = "Error";
