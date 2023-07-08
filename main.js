@@ -1,4 +1,4 @@
-const { PythonShell } = require("python-shell");
+const child = require('child_process').execFile;
 const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
@@ -7,18 +7,15 @@ const isDev = true;
 const isMac = process.platform === "darwin";
 
 function editText({ folderPath, find, replace, keepCase, processSub }) {
-  let options = {
-    mode: "text",
-    scriptPath: path.join(__dirname, "./scripts"),
-    args: [folderPath, find, replace, keepCase, processSub],
-  };
-  PythonShell.run("foo.py", options)
-    .then((message) => {
-      mainWindow.webContents.send("file:done", message);
-    })
-    .catch((err) => {
+  const execPath = './scripts/editor'
+  const params = [folderPath, find, replace, keepCase, processSub]
+  child(execPath, params, function (err, message) {
+    if (err) {
       mainWindow.webContents.send("file:error", err);
-    });
+    } else {
+      mainWindow.webContents.send("file:done", message);
+    }
+  })
 }
 
 let mainWindow;
