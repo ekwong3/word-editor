@@ -6,7 +6,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const isDev = true;
 
 function editText({ folderPath, find, replace, keepCase, processSub }) {
-  const execPath = "./scripts/editor";
+  const execPath = path.join(__dirname, "./scripts/editor");
   const params = [folderPath, find, replace, keepCase, processSub];
   child(execPath, params, function (err, message) {
     if (err) {
