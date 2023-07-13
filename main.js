@@ -2,8 +2,7 @@ const child = require("child_process").execFile;
 const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
-// const isDev = process.env.NODE_ENV !== "production";
-const isDev = true;
+const isDev = false;
 
 function editText({ folderPath, find, replace, keepCase, processSub }) {
   const execPath = path.join(__dirname, "./scripts/editor");
@@ -39,7 +38,6 @@ function createMainWindow() {
     mainWindow.webContents.openDevTools();
   }
 
-  // mainWindow.loadURL(`file://${__dirname}/renderer/index.html`);
   mainWindow.loadFile(path.join(__dirname, "./renderer/index.html"));
 }
 
