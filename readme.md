@@ -31,7 +31,11 @@ When set to `production`, the dev tools will not be available.
 
 ## Packaging
 
-Currently on MacOS, use `npx electron-packager . WordEditor` to package.
+Currently on MacOS, use `npx electron-packager . WordEditor --overwrite --prune=true --icon=./assets/icons/switch.icns` to package.
+
+## Icon
+
+Icon from https://www.iconfinder.com/icons/1626830/arrows_blue_circle_refresh_reload_sync_icon
 
 ## Original Files
 
