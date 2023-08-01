@@ -82,9 +82,9 @@ function editText(e) {
   }
 
   // Electron adds a bunch of extra properties to the file object including the path
-  const folderPath = getFolderPath();
-  const find = findInput.value;
-  const replace = replaceInput.value;
+  const folderPath = `"${getFolderPath()}"`;
+  const find = `"${findInput.value}"`;
+  const replace = `"${replaceInput.value}"`;
   const keepCase = caseCheck.checked;
   const processSub = processSubCheck.checked;
 
