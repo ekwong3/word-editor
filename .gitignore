@@ -3,3 +3,6 @@ node_modules
 out/
 .vscode
 WordEditor-darwin-arm64
+WordEditor-darwin-x64
+WordEditor-darwin-arm64.zip
+WordEditor-darwin-x64.zip
