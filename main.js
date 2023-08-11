@@ -4,9 +4,16 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 const isDev = false;
 
-function editText({ folderPath, find, replace, keepCase, processSub }) {
+function editText({
+  folderPath,
+  find,
+  replace,
+  keepCase,
+  matchWord,
+  processSub,
+}) {
   const execPath = path.join(`"${__dirname}"`, "./scripts/editor");
-  const params = [folderPath, find, replace, keepCase, processSub];
+  const params = [folderPath, find, replace, keepCase, matchWord, processSub];
   child(execPath, params, { shell: true }, function (err, message) {
     if (err) {
       mainWindow.webContents.send("file:error", err);
