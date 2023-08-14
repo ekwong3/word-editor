@@ -2,6 +2,8 @@ node_modules
 .DS_Store
 out/
 .vscode
+.env
+dist
 WordEditor-darwin-arm64
 WordEditor-darwin-x64
 WordEditor-darwin-arm64.zip

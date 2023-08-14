@@ -34,7 +34,9 @@ def is_punc(char):
 
 
 def matches_word(old_text, index, word_length):
-    if (index + word_length == len(old_text)):
+    if (index + word_length == len(old_text) and index == 0):
+        return True
+    elif (index + word_length == len(old_text)):
         return is_punc(old_text[index - 1])
     elif (index == 0):
         return is_punc(old_text[word_length])

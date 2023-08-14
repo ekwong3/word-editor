@@ -4,25 +4,30 @@
   "description": "Electron application that allows you to select an image and easily change the width and/or height.",
   "main": "main.js",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "electron .",
+    "dist": "electron-builder --universal"
+  },
+  "build": {
+    "appId": "WordEditor",
+    "mac": {
+      "hardenedRuntime": true,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "gatekeeperAssess": false,
+      "category": "public.app-category.developer-tools"
+    },
+    "afterSign": "scripts/notarize.js"
   },
   "keywords": [],
   "author": "ethan",
   "license": "ISC",
   "devDependencies": {
-    "@electron-forge/cli": "^6.2.1",
-    "@electron-forge/maker-deb": "^6.2.1",
-    "@electron-forge/maker-rpm": "^6.2.1",
-    "@electron-forge/maker-squirrel": "^6.2.1",
-    "@electron-forge/maker-zip": "^6.2.1",
-    "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
     "@electron/notarize": "^2.1.0",
     "electron": "^25.2.0",
+    "electron-builder": "^24.6.3",
     "electron-packager": "^17.1.1"
   },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+  "dmg": {
+    "sign": false
   }
 }
