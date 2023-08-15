@@ -9,6 +9,7 @@ NON_PUNCTUATION = string.ascii_letters + string.digits
 def read_doc(doc):
     print('reading', doc)
     document = Document(doc)
+    print('reading headers')
     for section in document.sections:
         for p in section.first_page_header.paragraphs:
             print(p.text)
@@ -17,9 +18,17 @@ def read_doc(doc):
         for p in section.even_page_header.paragraphs:
             print(p.text)
 
+    print('reading paragraphs')
     for paragraph in document.paragraphs:
         print(paragraph.text)
 
+    print('reading tables')
+    for table in document.tables:
+        for row in range(len(table.rows)):
+            for col in range(len(table.columns)):
+                print(table.cell(row, col).text)
+
+    print('reading footers')
     for section in document.sections:
         for p in section.first_page_footer.paragraphs:
             print(p.text)
@@ -115,6 +124,12 @@ def find_and_replace(doc, find, replace, keep_case, match_word):
             find_and_replace_section(
                 diff_footer, find, replace, keep_case, match_word)
 
+    for table in document.tables:
+        for row in range(len(table.rows)):
+            for col in range(len(table.columns)):
+                find_and_replace_section(table.cell(
+                    row, col), find, replace, keep_case, match_word)
+
     document.save(doc)
 
 
@@ -137,11 +152,13 @@ def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_s
                            replaces, keep_case, match_word, process_sub)
 
 
-folder = sys.argv[1]
-find = sys.argv[2]
-replace = sys.argv[3]
-keep_case = sys.argv[4] == "true"
-match_word = sys.argv[5] == "true"
-process_sub = sys.argv[6] == "true"
+path = '/Users/ekwong/Desktop/test_docs/test BEFORE.docx'
 
-replace_folder(folder, find, replace, keep_case, match_word, process_sub)
+# folder = sys.argv[1]
+# find = sys.argv[2]
+# replace = sys.argv[3]
+# keep_case = sys.argv[4] == "true"
+# match_word = sys.argv[5] == "true"
+# process_sub = sys.argv[6] == "true"
+
+# replace_folder(folder, find, replace, keep_case, match_word, process_sub)
