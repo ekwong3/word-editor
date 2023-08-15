@@ -4,9 +4,16 @@ const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 
 const isDev = false;
 
-function editText({ folderPath, find, replace, keepCase, processSub }) {
-  const execPath = path.join(`"${__dirname}"`, "./scripts/editor");
-  const params = [folderPath, find, replace, keepCase, processSub];
+function editText({
+  folderPath,
+  find,
+  replace,
+  keepCase,
+  matchWord,
+  processSub,
+}) {
+  const execPath = path.join(__dirname, "./scripts/editor");
+  const params = [folderPath, find, replace, keepCase, matchWord, processSub];
   child(execPath, params, { shell: true }, function (err, message) {
     if (err) {
       mainWindow.webContents.send("file:error", err);
@@ -23,7 +30,7 @@ let aboutWindow;
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: isDev ? 1000 : 600,
-    height: 620,
+    height: 580,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: isDev,
     webPreferences: {

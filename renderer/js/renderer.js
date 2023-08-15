@@ -5,6 +5,7 @@ const folder = document.querySelector("#folderpath");
 const replaceInput = document.querySelector("#replace");
 const findInput = document.querySelector("#find");
 const caseCheck = document.querySelector("#case");
+const matchWordCheck = document.querySelector("#match-word");
 const processSubCheck = document.querySelector("#subfolders");
 const modal = document.querySelector("#modal");
 const modalHeader = document.querySelector("#modal-header");
@@ -64,6 +65,7 @@ function reset() {
   replaceInput.value = "";
   caseCheck.checked = false;
   processSubCheck.checked = false;
+  matchWordCheck.checked = false;
   resetFolder();
 }
 
@@ -86,6 +88,7 @@ function editText(e) {
   const find = `"${findInput.value}"`;
   const replace = `"${replaceInput.value}"`;
   const keepCase = caseCheck.checked;
+  const matchWord = matchWordCheck.checked;
   const processSub = processSubCheck.checked;
 
   alertEditing();
@@ -95,6 +98,7 @@ function editText(e) {
     find,
     replace,
     keepCase,
+    matchWord,
     processSub,
   });
 }

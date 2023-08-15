@@ -14,8 +14,7 @@
 <body class="bg-teal-700 overflow-auto">
   <div class="max-w-xl m-auto">
     <div class="flex bg-grey-lighter py-7">
-      <label
-        class="flex px-4 py-7 m-auto bg-white text-gray-500 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:text-teal-800">
+      <label class="select-button shadow-lg">
         <span id="select" class="leading-normal">Select a folder of files to edit</span>
         <strong id="folder-name"></strong>
         <input id="folderpath" type="file" webkitdirectory directory multiple class="hidden" />
@@ -51,22 +50,24 @@
       </div>
 
       <div class="mx-auto fit-content">
-        <div
-          class="inline-block m-2 py-4 px-4 border border-transparent shadow-sm font-medium text-medium rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <div class="form-button shadow-lg">
           <input type="checkbox" id="case" name="case">
           <label for="case">&nbspKeep case</label>
         </div>
 
-        <div
-          class="inline-block mx-2 my-5 py-4 px-4 border border-transparent shadow-sm font-medium text-medium rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <div class="form-button shadow-lg">
+          <input type="checkbox" id="match-word" name="match-word">
+          <label for="match-word">&nbspMatch word</label>
+        </div>
+
+        <div class="form-button shadow-lg">
           <input type="checkbox" id="subfolders" name="subfolders">
-          <label for="subfolders">&nbspProcess subfolders</label>
+          <label for="subfolders">&nbspSubfolders</label>
         </div>
 
         <!-- Button -->
-        <div class="inline-block">
-          <button type="submit"
-            class="block m-2 py-4 px-4 border border-transparent shadow-sm font-medium text-medium rounded-md text-white bg-teal-500 hover:bg-teal-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <div class="block mx-auto fit-content">
+          <button type="submit" class="form-button shadow-lg">
             Replace All
           </button>
         </div>
