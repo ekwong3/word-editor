@@ -128,7 +128,8 @@ def replace_many(doc, finds, replaces, keep_case, match_word):
 
 def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_sub):
     for path in os.listdir(folderpath):
-        if path.endswith('.docx'):
+        # omit non word files and temporary open ones
+        if path.endswith('.docx') and path[:2] != '~$':
             filepath = f'{folderpath}{path}'
             replace_many(filepath, finds, replaces, keep_case, match_word)
         elif process_sub and os.path.isdir(f'{folderpath}{path}/'):

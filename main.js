@@ -30,7 +30,7 @@ let aboutWindow;
 function createMainWindow() {
   mainWindow = new BrowserWindow({
     width: isDev ? 1000 : 600,
-    height: 620,
+    height: 580,
     icon: `${__dirname}/assets/icons/Icon_256x256.png`,
     resizable: isDev,
     webPreferences: {

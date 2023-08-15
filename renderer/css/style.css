@@ -1,8 +1,4 @@
 /*
-! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
-*/
-
-/*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
 */
@@ -184,28 +180,12 @@ textarea {
   display: none;
 }
 
-.w-64 {
-  width: 16rem;
-}
-
-.w-80 {
-  width: 20rem;
-}
-
 .max-w-xl {
   max-width: 36rem;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-
 .resize {
   resize: both;
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
 }
 
 .px-4 {
@@ -223,13 +203,7 @@ textarea {
 }
 
 .bg-teal-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(15 118 110 / var(--tw-bg-opacity));
-}
-
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: rgb(16, 136, 126);
 }
 
 .p-3 {
@@ -250,16 +224,8 @@ textarea {
     "Liberation Mono", "Courier New", monospace;
 }
 
-.uppercase {
-  text-transform: uppercase;
-}
-
 .leading-normal {
   line-height: 1.5;
-}
-
-.tracking-wide {
-  letter-spacing: 0.025em;
 }
 
 .text-teal-100 {
@@ -272,9 +238,11 @@ textarea {
   color: rgb(94 234 212 / var(--tw-text-opacity));
 }
 
-.text-gray-500 {
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
+.shadow-sm {
+  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .shadow-lg {
@@ -286,16 +254,24 @@ textarea {
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.shadow-sm {
-  --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+.select-button {
+  display: flex;
+  padding: 1rem;
+  margin: auto;
+  color: rgb(107 114 128);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+
+  background-color: white;
+  border-width: 1px;
+  border-color: transparent;
+  border-radius: 0.5rem;
+
+  cursor: pointer;
 }
 
-.hover\:text-teal-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(17 94 89 / var(--tw-text-opacity));
+.select-button:hover {
+  color: rgb(17 94 89);
 }
 
 .form-button {
@@ -303,8 +279,11 @@ textarea {
   margin: 0.25rem 0.3rem;
   width: 10rem;
   padding: 1rem;
+
   border-width: 1px;
   border-color: transparent;
+  border-radius: 0.5rem;
+
   font-weight: 500;
   color: white;
   background-color: rgb(20 184 166);

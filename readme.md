@@ -31,7 +31,7 @@ When set to `production`, the dev tools will not be available.
 
 ## Packaging
 
-Currently on MacOS, use `npx electron-packager . WordEditor --prune=true --icon=./build/icon.icns` to package.
+Currently on MacOS, use `npx electron-packager . WordEditor --arch=x64 --prune=true --icon=./build/icon.icns` to package.
 
 ## Icon
 
