@@ -89,9 +89,11 @@ def get_new_text(old_text, find_word, replace_word, keep_case, match_word):
 
 def find_and_replace_section(section, find, replace, keep_case, match_word):
     for i in range(len(section.paragraphs)):
-        old_text = section.paragraphs[i].text
-        new_text = get_new_text(old_text, find, replace, keep_case, match_word)
-        section.paragraphs[i].text = new_text
+        for run in section.paragraphs[i].runs:
+            old_text = run.text
+            new_text = get_new_text(
+                old_text, find, replace, keep_case, match_word)
+            run.text = new_text
 
 
 def find_and_replace(doc, find, replace, keep_case, match_word):
@@ -152,13 +154,11 @@ def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_s
                            replaces, keep_case, match_word, process_sub)
 
 
-path = '/Users/ekwong/Desktop/test_docs/test BEFORE.docx'
+folder = sys.argv[1]
+find = sys.argv[2]
+replace = sys.argv[3]
+keep_case = sys.argv[4] == "true"
+match_word = sys.argv[5] == "true"
+process_sub = sys.argv[6] == "true"
 
-# folder = sys.argv[1]
-# find = sys.argv[2]
-# replace = sys.argv[3]
-# keep_case = sys.argv[4] == "true"
-# match_word = sys.argv[5] == "true"
-# process_sub = sys.argv[6] == "true"
-
-# replace_folder(folder, find, replace, keep_case, match_word, process_sub)
+replace_folder(folder, find, replace, keep_case, match_word, process_sub)
