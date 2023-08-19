@@ -6,9 +6,7 @@ from docx import Document
 NON_PUNCTUATION = string.ascii_letters + string.digits
 
 
-def read_doc(doc):
-    print('reading', doc)
-    document = Document(doc)
+def read_headers(document):
     print('reading headers')
     for section in document.sections:
         for p in section.first_page_header.paragraphs:
@@ -18,16 +16,22 @@ def read_doc(doc):
         for p in section.even_page_header.paragraphs:
             print(p.text)
 
+
+def read_paragraphs(document):
     print('reading paragraphs')
     for paragraph in document.paragraphs:
         print(paragraph.text)
 
+
+def read_tables(document):
     print('reading tables')
     for table in document.tables:
         for row in range(len(table.rows)):
             for col in range(len(table.columns)):
                 print(table.cell(row, col).text)
 
+
+def read_footers(document):
     print('reading footers')
     for section in document.sections:
         for p in section.first_page_footer.paragraphs:
@@ -36,6 +40,15 @@ def read_doc(doc):
             print(p.text)
         for p in section.even_page_footer.paragraphs:
             print(p.text)
+
+
+def read_doc(doc):
+    print('reading', doc)
+    document = Document(doc)
+    read_headers(document)
+    read_paragraphs(document)
+    read_tables(document)
+    read_footers(document)
 
 
 def is_punc(char):
@@ -93,7 +106,8 @@ def find_and_replace_section(section, find, replace, keep_case, match_word):
             old_text = run.text
             new_text = get_new_text(
                 old_text, find, replace, keep_case, match_word)
-            run.text = new_text
+            if new_text != old_text:
+                run.text = new_text
 
 
 def find_and_replace(doc, find, replace, keep_case, match_word):
@@ -106,7 +120,8 @@ def find_and_replace(doc, find, replace, keep_case, match_word):
         find_and_replace_section(header, find, replace, keep_case, match_word)
 
         footer = section.footer
-        find_and_replace_section(footer, find, replace, keep_case, match_word)
+        find_and_replace_section(
+            footer, find, replace, keep_case, match_word)
 
         if section.different_first_page_header_footer:
             diff_header = section.first_page_header
@@ -154,11 +169,14 @@ def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_s
                            replaces, keep_case, match_word, process_sub)
 
 
-folder = sys.argv[1]
-find = sys.argv[2]
-replace = sys.argv[3]
-keep_case = sys.argv[4] == "true"
-match_word = sys.argv[5] == "true"
-process_sub = sys.argv[6] == "true"
+doc = '/Users/ekwong/Desktop/test_docs/D2 Paying Agent Agreement.docx'
+d = Document(doc)
 
-replace_folder(folder, find, replace, keep_case, match_word, process_sub)
+# folder = sys.argv[1]
+# find = sys.argv[2]
+# replace = sys.argv[3]
+# keep_case = sys.argv[4] == "true"
+# match_word = sys.argv[5] == "true"
+# process_sub = sys.argv[6] == "true"
+
+# replace_folder(folder, find, replace, keep_case, match_word, process_sub)
