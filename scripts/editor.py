@@ -77,10 +77,6 @@ def get_new_word(old_word, replace_word):
         return replace_word
 
 
-def length_difference(find_word, replace_word):
-    return len(find_word) - len(replace_word)
-
-
 def replace_single(run, start_index, find_length, replace_word, keep_case, match_word):
     if (match_word and matches_word(run.text, start_index, find_length)) or not match_word:
         if keep_case:
@@ -96,14 +92,31 @@ def replace_multiple(paragraph, run_index, start_index, find_length, replace_wor
         replace_single(paragraph.runs[run_index], start_index,
                        find_length, replace_word, keep_case, match_word)
         return
-    current_run, next_run = paragraph.runs[run_index], paragraph.runs[run_index + 1]
-    combined_text = current_run.text + next_run.text
+    current_run = paragraph.runs[run_index]
+    combined_text = current_run.text
+    final_length = start_index + find_length
+    next_index = run_index + 1
+    while len(combined_text) <= final_length and next_index < len(paragraph.runs):
+        combined_text += paragraph.runs[next_index].text
+        next_index += 1
+
     if (match_word and matches_word(combined_text, start_index, find_length)) or not match_word:
         if keep_case:
             replace_word = get_new_word(
                 combined_text[start_index: start_index + find_length + 1], replace_word)
-        next_run.text = next_run.text[find_length +
-                                      start_index - len(current_run.text):]
+
+        remaining_length = find_length - (len(current_run.text) - start_index)
+        next_index = run_index + 1
+        while remaining_length > 0:
+            next_run = paragraph.runs[next_index]
+            run_length = len(next_run.text)
+            if 0 < run_length < remaining_length:
+                remaining_length -= run_length
+                next_run.text = ''
+            elif run_length >= remaining_length:
+                next_run.text = next_run.text[remaining_length:]
+                remaining_length = 0
+            next_index += 1
         current_run.text = current_run.text[:start_index] + replace_word
 
 
@@ -132,7 +145,7 @@ def replace_text(paragraph, find_word, replace_word, keep_case, match_word):
                              word_length, replace_word, keep_case, match_word)
         text_copy = paragraph.text.lower()
         word_start = text_copy.find(find_copy)
-        text_index -= length_difference(find_word, replace_word)
+        current_run_length = len(paragraph.runs[run_index].text)
 
 
 def find_and_replace_section(section, find, replace, keep_case, match_word):
@@ -200,7 +213,7 @@ def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_s
                            replaces, keep_case, match_word, process_sub)
 
 
-doc = '/Users/ekwong/Desktop/test_docs/A00 ScheduleOfDocuments.docx'
+doc = '/Users/ekwong/Desktop/test.docx'
 d = Document(doc)
 
 # folder = sys.argv[1]
