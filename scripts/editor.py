@@ -219,14 +219,11 @@ def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_s
                            replaces, keep_case, match_word, process_sub)
 
 
-doc = '/Users/ekwong/Desktop/test.docx'
-find_and_replace(doc, 'number', 'no.', False, False)
+folder = sys.argv[1]
+find = sys.argv[2]
+replace = sys.argv[3]
+keep_case = sys.argv[4] == "true"
+match_word = sys.argv[5] == "true"
+process_sub = sys.argv[6] == "true"
 
-# folder = sys.argv[1]
-# find = sys.argv[2]
-# replace = sys.argv[3]
-# keep_case = sys.argv[4] == "true"
-# match_word = sys.argv[5] == "true"
-# process_sub = sys.argv[6] == "true"
-
-# replace_folder(folder, find, replace, keep_case, match_word, process_sub)
+replace_folder(folder, find, replace, keep_case, match_word, process_sub)

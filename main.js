@@ -12,7 +12,7 @@ function editText({
   matchWord,
   processSub,
 }) {
-  const execPath = path.join(__dirname, "./scripts/editor");
+  const execPath = path.join(__dirname, "./scripts/editor/editor");
   const params = [folderPath, find, replace, keepCase, matchWord, processSub];
   child(execPath, params, { shell: true }, function (err, message) {
     if (err) {
