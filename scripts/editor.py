@@ -159,6 +159,12 @@ def find_and_replace(doc, find, replace, keep_case, match_word):
     sections = document.sections
     find_and_replace_section(document, find, replace, keep_case, match_word)
 
+    for paragraph in document.paragraphs:
+        for run in paragraph.runs:
+            if run.footnote is not None:
+                # since footnotes are only strings, just use simple find/replace
+                run.footnote = run.footnote.replace(find, replace)
+
     for section in sections:
         header = section.header
         find_and_replace_section(header, find, replace, keep_case, match_word)
@@ -214,7 +220,7 @@ def replace_folder(folderpath, finds, replaces, keep_case, match_word, process_s
 
 
 doc = '/Users/ekwong/Desktop/test.docx'
-d = Document(doc)
+find_and_replace(doc, 'number', 'no.', False, False)
 
 # folder = sys.argv[1]
 # find = sys.argv[2]
