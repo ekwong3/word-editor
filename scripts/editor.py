@@ -129,12 +129,16 @@ def replace_text(paragraph, find_word, replace_word, keep_case, match_word):
     word_start = text_copy.find(find_copy)
     text_index = 0
     run_index = 0
+    old_length = 0
     current_run_length = len(paragraph.runs[run_index].text)
     while word_start >= 0:
+        # Make sure that we get back to the right place in searching the paragraph text
+        word_start += old_length
         while text_index + current_run_length <= word_start:
             run_index += 1
             text_index += current_run_length
             current_run_length = len(paragraph.runs[run_index].text)
+        old_length = 0
         run_start = word_start - text_index
         # Want to be strictly less than to account for match_word
         if (run_start + word_length < len(paragraph.runs[run_index].text)):
@@ -143,7 +147,8 @@ def replace_text(paragraph, find_word, replace_word, keep_case, match_word):
         else:
             replace_multiple(paragraph, run_index, run_start,
                              word_length, replace_word, keep_case, match_word)
-        text_copy = paragraph.text.lower()
+        old_length = word_start + len(replace_word)
+        text_copy = paragraph.text.lower()[old_length:]
         word_start = text_copy.find(find_copy)
         current_run_length = len(paragraph.runs[run_index].text)
 
