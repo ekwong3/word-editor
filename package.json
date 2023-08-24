@@ -1,6 +1,6 @@
 {
   "name": "WordEditor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Electron application that allows you to select an image and easily change the width and/or height.",
   "main": "main.js",
   "scripts": {
