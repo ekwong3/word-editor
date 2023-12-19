@@ -4,6 +4,7 @@ out/
 .vscode
 .env
 dist
+.pdf
 WordEditor-darwin-arm64
 WordEditor-darwin-x64
 WordEditor-darwin-arm64.zip
