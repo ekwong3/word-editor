@@ -91,15 +91,12 @@ function editText(e) {
   const matchWord = matchWordCheck.checked;
   const processSub = processSubCheck.checked;
 
+  const params = [folderPath, find, replace, keepCase, matchWord, processSub];
+
   alertEditing();
 
   ipcRenderer.send("file:edit", {
-    folderPath,
-    find,
-    replace,
-    keepCase,
-    matchWord,
-    processSub,
+    params,
   });
 }
 

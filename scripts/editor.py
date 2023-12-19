@@ -198,9 +198,9 @@ def find_and_replace(doc, find, replace, keep_case, match_word):
 
     for table in document.tables:
         for row in range(len(table.rows)):
-            for col in range(len(table.columns)):
-                find_and_replace_section(table.cell(
-                    row, col), find, replace, keep_case, match_word)
+            for cell in table.row_cells(row):
+                find_and_replace_section(
+                    cell, find, replace, keep_case, match_word)
 
     document.save(doc)
 

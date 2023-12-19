@@ -29,5 +29,8 @@
   },
   "dmg": {
     "sign": false
+  },
+  "dependencies": {
+    "python-shell": "^5.0.0"
   }
 }

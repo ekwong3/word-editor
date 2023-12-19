@@ -1,26 +1,33 @@
-const child = require("child_process").execFile;
-const path = require("path");
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
+const path = require("path");
+const child = require("child_process").execFile;
 
 const isDev = false;
 
-function editText({
-  folderPath,
-  find,
-  replace,
-  keepCase,
-  matchWord,
-  processSub,
-}) {
-  const execPath = path.join(__dirname, "./scripts/editor/editor");
-  const params = [folderPath, find, replace, keepCase, matchWord, processSub];
-  child(execPath, params, { shell: true }, function (err, message) {
-    if (err) {
-      mainWindow.webContents.send("file:error", err);
-    } else {
-      mainWindow.webContents.send("file:done", message);
-    }
-  });
+function editText({ params }) {
+  if (isDev) {
+    let { PythonShell } = require("python-shell");
+    let pyshell = new PythonShell("./scripts/editor.py");
+    pyshell.send(params);
+    pyshell.on("message", function (message) {
+      console.log(message);
+    });
+    pyshell.end(function (err, code, signal) {
+      if (err) {
+        console.log("Exited with error:", err.traceback);
+        mainWindow.webContents.send("file:error", err);
+      }
+    });
+  } else {
+    const execPath = path.join(__dirname, "./scripts/editor/editor");
+    child(execPath, params, { shell: true }, function (err, message) {
+      if (err) {
+        mainWindow.webContents.send("file:error", err);
+      } else {
+        mainWindow.webContents.send("file:done", message);
+      }
+    });
+  }
 }
 
 let mainWindow;
